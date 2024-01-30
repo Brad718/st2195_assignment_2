@@ -1,0 +1,14 @@
+import pandas as pd
+import requests
+from bs4 import BeautifulSoup
+
+
+page = requests.get('https://en.wikipedia.org/wiki/Comma-separated_values').text
+soup = BeautifulSoup(page, 'html.parser')
+table = soup.find('table', class_="wikitable")
+
+df = pd.read_html(str(table))
+df = pd.concat(df)
+
+print(df.to_string())
+df.to_csv("cardatatesttable.csv", index=False)
